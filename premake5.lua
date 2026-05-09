@@ -5,6 +5,8 @@ project "ImGui"
 
 	targetdir ("Build/Bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("Build/Intermediate/" .. outputdir .. "/%{prj.name}")
+	newoption { trigger = "imgui-use-vulkan-glfw", description="Use Vulkan and GLFW" }
+	newoption { trigger = "imgui-use-vulkan-volk", description="Use volk" }
 
 	files
 	{
@@ -20,6 +22,23 @@ project "ImGui"
 		"imstb_truetype.h",
 		"imgui_demo.cpp"
 	}
+
+    filter { "options:imgui-use-vulkan-glfw" }
+       includedirs
+       {
+           "%{prj.location}",
+           "%{IncludeDir.glfw}",
+           "%{IncludeDir.vulkan}"
+       }
+       files
+       {
+           "backends/imgui_impl_vulkan.cpp",
+           "backends/imgui_impl_vulkan.h",
+           "backends/imgui_impl_glfw.cpp",
+           "backends/imgui_impl_glfw.h"
+       }
+    filter "options:imgui-use-vulkan-volk"
+		defines { "VOLK_NAMESPACE", "VK_NO_PROTOTYPES" }
 
 	filter "system:windows"
 		systemversion "latest"
