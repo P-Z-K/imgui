@@ -31,14 +31,13 @@ project "ImGui"
 		cppdialect "C++17"
 
 	filter "configurations:Debug"
-		runtime "Debug"
-		symbols "on"
+		runtime "Debug"       -- Keep /MDd for compatibility
+        symbols "On"          -- Keep /Zi
+        optimize "On"         -- Add /Ox
+        runtimechecks "Off"   -- Remove /RTC1
 
 	filter "configurations:Release"
 		runtime "Release"
 		optimize "on"
-
-    filter "configurations:Dist"
-		runtime "Release"
 		optimize "on"
         symbols "off"
